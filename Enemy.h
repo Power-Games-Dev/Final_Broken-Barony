@@ -11,6 +11,10 @@ struct FactionStats {
     string FactionName;
     int ViewDistance;
     bool bIsIntelligent;
+    int Size;
+    int Attack;
+    int HP;
+    int Move;
 };
 
 class Enemy {
@@ -96,7 +100,7 @@ public:
 
     void DecideAction(const vector<vector<char>>& grid) override {
         if (Survey(grid)) {
-            cout << " -> RUSHING THE KEY POINT WITH BRUTE FORCE!" << endl;
+            cout << " -> RUSHING THE CONTROL POINT WITH BRUTE FORCE!" << endl;
         }
         else {
             cout << " -> No target. Following the horde in a single direction." << endl;

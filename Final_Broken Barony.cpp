@@ -11,11 +11,20 @@ using namespace std;
 
 // CIS1202
 // Joshua Powers
-// Outlined 4/23/2026
 //Broken Barony Game
+
+int loadMap(int userChoice);
+void spawnCP();
 
 int main()
 {
+	cout << "The Baron didn't have an heir, so after their death talks of war broke out." << endl;
+	cout << "Humans, Elves, Orcs all fighting to claim the Barony. You will represent the humans." << endl;
+	cout << "There will be a number of control points on the map. If it is not controlled it will be displayed as an 'i'." << endl;
+	cout << "If the conrol point has been taken by a faction, it will be displayed as an '!'." << endl;
+	cout << "You will give commands to your troops for each season to scout and take control of control points." << endl;
+	cout << "After 4 seasons, Spring, Summer, Fall and Winter you will get a yearly update with who has taken which control points." << endl;
+	cout << "If a faction controls more than X control points and hold it until the end of the year, they take control of the Barony." << endl;
 	/*
 	This program is a game where there will be a map that is generated ofa  local area.
 	There will be a random number of control points, and you will choose a faction to be.
@@ -58,7 +67,8 @@ Units:
 Swordsmen: Can move 1 space as part of an attack.
 Rangers: Can attack enemies 1 space away.
 Traits: 
-Calculated: Gets the number of units within range and determines if the attack is calculated. Humans prefer to out number the enemy 2 to 1.
+Calculated: Gets the number of units within range and determines if the attack is calculated. 
+Humans prefer to out number the enemy 2 to 1.
 
 Elf: 
 Size: 2
@@ -70,7 +80,8 @@ Units:
 Assassins: Deal 1 extra damage on the first attack.
 Archers: Can Attack enemies 2 spaces away.
 Traits: 
-Know they Enemy: Gets the number of units within range and determines if the attack is winnable. Elves will know the total attack of an enemy or group of enemies within range and will not fight a losing battle, they will instead defend.
+Know they Enemy: Gets the number of units within range and determines if the attack is winnable. 
+Elves will know the total attack of an enemy or group of enemies within range and will not fight a losing battle, they will instead defend.
 
 
 
@@ -84,7 +95,8 @@ Units:
 Berserkers: Ignores 1 damage from the first attack.
 Shaman: Restores 1 HP to self or adjacent ally at the end of the turn.
 Traits: 
-Ambusher: Orcs do not calculate if a fight is winnable, they will send numbers to control points to take them over hard and fast.
+Ambusher: Orcs do not calculate if a fight is winnable, 
+they will send numbers to control points to take them over hard and fast.
 
 	*/
 
@@ -99,8 +111,27 @@ Ambusher: Orcs do not calculate if a fight is winnable, they will send numbers t
 	Swamp: s
 	*/
 
-	char water = '~', mountain = '^', forest = 'f', plains = '.', desert = '#', artctic = '*', swamp = 's';
+	char uControlPoint = 'i', cControlPoint = '!', water = '~', mountain = '^', forest = 'f', plains = '.', desert = '#', artctic = '*', swamp = 's';
 	
 	//vector <char> vWater = [water];
 
+}
+
+
+int loadMap(int userChoice)
+{
+	// Generates a random number between 1 and 5 for map selection
+	// OR takes input based on a number 1-5.
+	random_device randomEngine;
+	uniform_int_distribution<int> d5(1, 5);
+	int dieRoll = d5(randomEngine);
+
+	return dieRoll;
+}
+
+void spawnCP()
+{
+	random_device randomEngine;
+	uniform_int_distribution<int> d6(1, 6);
+	int dieRoll = d6(randomEngine);
 }

@@ -24,4 +24,11 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Barren Desert Map.txt" />
+    <Text Include="Dense Jungle Map.txt" />
+    <Text Include="Howling Tundra Map.txt" />
+    <Text Include="Open Plains Map.txt" />
+    <Text Include="Swamplands Map.txt" />
+  </ItemGroup>
 </Project>
