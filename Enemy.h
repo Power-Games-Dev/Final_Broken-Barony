@@ -7,7 +7,8 @@
 using namespace std;
 
 // Faction will be for specific abilities and deciding logic
-struct FactionStats {
+struct FactionStats
+{
     string FactionName;
     int ViewDistance;
     bool bIsIntelligent;
@@ -17,7 +18,8 @@ struct FactionStats {
     int Move;
 };
 
-class Enemy {
+class Enemy
+{
 protected:
     FactionStats Stats;
     int PosX, PosY;
@@ -34,12 +36,14 @@ public:
 
     // Virtual Destructor
     virtual ~Enemy() {
-        if (TargetLocation != nullptr) {
+        if (TargetLocation != nullptr)
+        {
             delete TargetLocation;
         }
     }
 
-    bool Survey(const vector<vector<char>>& grid) {
+    bool Survey(const vector<vector<char>>& grid)
+    {
         cout << "[" << Stats.FactionName << " Unit] is surveying the area..." << endl;
 
         // Scan an area based on their ViewDistance
@@ -48,13 +52,16 @@ public:
         int startX = max(0, PosX - Stats.ViewDistance);
         int endX = min((int)grid[0].size() - 1, PosX + Stats.ViewDistance);
 
-        for (int y = startY; y <= endY; ++y) {
-            for (int x = startX; x <= endX; ++x) {
+        for (int y = startY; y <= endY; ++y)
+        {
+            for (int x = startX; x <= endX; ++x)
+            {
                 if (grid[y][x] == '!') {
                     cout << " -> Key Point '!' spotted at X:" << x << " Y:" << y << "!" << endl;
 
                     // Dynamically allocate a pointer to remember this spot
-                    if (TargetLocation == nullptr) {
+                    if (TargetLocation == nullptr)
+                    {
                         TargetLocation = new pair<int, int>(x, y);
                     }
                     else {
@@ -73,19 +80,25 @@ public:
 
 
 // Specific Classes for intelligent units, 2 step process
-class IntelligentUnit : public Enemy {
+class IntelligentUnit : public Enemy
+{
 public:
-    IntelligentUnit(int x, int y, FactionStats stats) : Enemy(x, y, stats) {}
+    IntelligentUnit(int x, int y, FactionStats stats) : Enemy(x, y, stats)
+    {
+    }
 
-    void DecideAction(const vector<vector<char>>& grid) override {
+    void DecideAction(const vector<vector<char>>& grid) override
+    {
         // Step 1: Scan for the Key Point
-        if (Survey(grid)) {
+        if (Survey(grid))
+        {
             cout << " -> Using advanced tactics to move adjacent to the Key Point." << endl;
             // Still needs Logic to pathfind to TargetLocation
         }
         // Step 2: If nothing is found, execute standard movement based on intelligence
         else {
-            if (Stats.bIsIntelligent) {
+            if (Stats.bIsIntelligent)
+            {
                 cout << " -> No target. Continuing exploration." << endl;
                 // Move logic: PosX += (PosX >= SpawnX) ? 1 : -1;
             }
@@ -94,13 +107,17 @@ public:
 };
 
 // Lesser or non intelligent units class
-class SwarmUnit : public Enemy {
+class SwarmUnit : public Enemy
+{
 public:
-    SwarmUnit(int x, int y, FactionStats stats) : Enemy(x, y, stats) {}
+    SwarmUnit(int x, int y, FactionStats stats) : Enemy(x, y, stats)
+    {
+    }
 
     void DecideAction(const vector<vector<char>>& grid) override {
-        if (Survey(grid)) {
-            cout << " -> RUSHING THE CONTROL POINT WITH BRUTE FORCE!" << endl;
+        if (Survey(grid))
+        {
+            cout << " -> RUSHING THE CONTROL POINT!" << endl;
         }
         else {
             cout << " -> No target. Following the horde in a single direction." << endl;
