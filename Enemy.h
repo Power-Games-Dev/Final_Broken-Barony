@@ -42,6 +42,33 @@ public:
         }
     }
 
+    // Virtual methods so my specific units like ElfAssassin, OrcBerserker can override them
+
+    virtual void Attack(Enemy* target)
+    {
+        if (target != nullptr)
+        {
+            cout << " -> [" << Stats.FactionName << " Unit] attacks for " << Stats.Attack << " damage!" << endl;
+            target->TakeDamage(Stats.Attack);
+        }
+    }
+
+    virtual void TakeDamage(int damageAmount)
+    {
+        Stats.HP -= damageAmount;
+        cout << " -> [" << Stats.FactionName << " Unit] takes " << damageAmount << " damage. HP remaining: " << Stats.HP << endl;
+    }
+
+    virtual int GetAttackRange() const
+    {
+        return 1; // I set the default to 1 for standard melee units.
+    }
+
+    virtual void EndTurn()
+    {
+        // Default does nothing, but my OrcShaman will override this to heal.
+    }
+
     bool Survey(const vector<vector<char>>& grid)
     {
         cout << "[" << Stats.FactionName << " Unit] is surveying the area..." << endl;
@@ -77,7 +104,6 @@ public:
     // Pure virtual function. Child classes define how they move based on intelligence.
     virtual void DecideAction(const vector<vector<char>>& grid) = 0;
 };
-
 
 // Specific Classes for intelligent units, 2 step process
 class IntelligentUnit : public Enemy

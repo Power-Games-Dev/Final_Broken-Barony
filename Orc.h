@@ -40,7 +40,7 @@ public:
             damageAmount -= 1;
 
             // I must ensure the damage does not drop below zero, 
-            // otherwise weak attacks might accidentally heal me.
+            // otherwise weak attacks might accidentally heal.
             if (damageAmount < 0)
             {
                 damageAmount = 0;
