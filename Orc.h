@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Enemy.h"
 
@@ -31,6 +32,12 @@ public:
     {
     }
 
+    // GetSymbol override to print character token
+    virtual char GetSymbol() const override
+    {
+        return 'O';
+    }
+
     // Added TakeDamage override so I can reduce the damage of the first hit.
     virtual void TakeDamage(int damageAmount) // I need to add this virtual method to Enemy.h later
     {
@@ -58,6 +65,12 @@ class OrcShaman : public Orc
 public:
     OrcShaman(int x, int y) : Orc(x, y)
     {
+    }
+
+    // GetSymbol override to print character token
+    virtual char GetSymbol() const override
+    {
+        return (unsigned char)214;
     }
 
     // Added EndTurn override to handle my end-of-turn healing ability.

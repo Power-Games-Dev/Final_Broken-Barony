@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Enemy.h"
 
@@ -49,6 +50,12 @@ public:
     {
     }
 
+    // GetSymbol override to print character token
+    virtual char GetSymbol() const override
+    {
+        return 'V';
+    }
+
     // Added Attack override to deal my extra damage on the first hit.
     virtual void Attack(Enemy* target) // I need to add this virtual method to Enemy.h later
     {
@@ -70,6 +77,12 @@ class ElfArcher : public Elf
 public:
     ElfArcher(int x, int y) : Elf(x, y)
     {
+    }
+
+    // GetSymbol override to print character token
+    virtual char GetSymbol() const override
+    {
+        return 'A';
     }
 
     // Added GetAttackRange override so my archers can attack from 2 spaces away.

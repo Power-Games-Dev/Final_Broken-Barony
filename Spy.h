@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Enemy.h"
 
@@ -49,6 +50,12 @@ public:
         return bTellsTruth;
     }
 
+    // GetSymbol override to print character token to hide Bard or Propagandist.
+    virtual char GetSymbol() const override
+    {
+        return 'S';
+    }
+
 protected:
     // I need a protected helper function that gets the truth from the map
     // Both my Bard and Propagandist will use this, but the Propagandist will alter the results before returning them
@@ -56,9 +63,23 @@ protected:
     {
         IntelReport truth = { false, "None", false, "None" };
 
-        // TODO: I need to iterate through the grid here based on my ViewDistance
-        //to find actual enemies and control points, and update the 'truth' struct variables accurately
+        // Scanning logic: Look at the grid boundaries around the Spy based on their ViewDistance to find Control Points
+        int startY = max(0, PosY - Stats.ViewDistance);
+        int endY = min((int)grid.size() - 1, PosY + Stats.ViewDistance);
+        int startX = max(0, PosX - Stats.ViewDistance);
+        int endX = min((int)grid[0].size() - 1, PosX + Stats.ViewDistance);
 
+        for (int y = startY; y <= endY; ++y)
+        {
+            for (int x = startX; x <= endX; ++x)
+            {
+                if (grid[y][x] == '!') {
+                    truth.bFoundControlPoint = true;
+                    truth.CPController = "Unknown"; // Defaulting to unknown for testing
+                    return truth; // Found one, no need to keep checking
+                }
+            }
+        }
         return truth;
     }
 
@@ -69,10 +90,15 @@ public:
         bIsDeployed = true;
         TurnsUntilReturn = 1;
 
-        // TODO: I will need to update my PosX and PosY based on the chosen direction 
-        // Pac-Man wrap-around logic to avoid gouing out of bounds.
+        // Pac-Man wrap-around logic. The Spy travels instantly based on their Stats.Move to scout ahead
+        int speed = Stats.Move;
 
-        cout << " -> [Spy Unit] departs into the shadows to gather intel." << endl;
+        if (direction == 'N') PosY = (PosY - speed + 300) % 30; // +300 prevents negative modulo errors
+        else if (direction == 'S') PosY = (PosY + speed) % 30;
+        else if (direction == 'W') PosX = (PosX - speed + 900) % 90;
+        else if (direction == 'E') PosX = (PosX + speed) % 90;
+
+        cout << " -> [Spy Unit] departs " << direction << " into the shadows to gather intel." << endl;
     }
 
     //Logic for Spy turn

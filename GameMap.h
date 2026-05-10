@@ -1,3 +1,4 @@
+
 #pragma once
 #include <iostream>
 #include <vector>
@@ -6,6 +7,9 @@
 #include <cmath>
 #include <fstream>
 #include <stdexcept>
+
+// Included to access Enemy Getter methods for the DisplayMap function
+#include "Enemy.h"
 
 using namespace std;
 
@@ -27,7 +31,13 @@ private:
     int MapHeight;
 
 public:
-    
+
+    // Constructor initialized to an empty grid of spaces
+    GameMap(int width, int height) : MapWidth(width), MapHeight(height)
+    {
+        Grid = vector<vector<char>>(MapHeight, vector<char>(MapWidth, ' '));
+    }
+
     // function for loading map
     void LoadMapFromBinary(int mapIndex)
     {
@@ -50,13 +60,6 @@ public:
         }
 
         inFile.close();
-    }
-    
-    // Constructor and initialize an empty grid of spaces
-    GameMap(int width, int height) : MapWidth(width), MapHeight(height)
-    {
-
-        Grid = vector<vector<char>>(MapHeight, vector<char>(MapWidth, ' '));
     }
 
     // Accessor function: Pass by const reference so Enemies can read it safely
@@ -131,34 +134,46 @@ public:
         ControlPoints.push_back(newCP);
         UpdateMapVisuals();
     }
+
+    // DisplayMap accepts activeUnits and playerUnit so it can print character tokens within viewDistance
+    void DisplayMap(const vector<Enemy*>& activeUnits, Enemy* playerUnit)
+    {
+        int pX = playerUnit->GetPosX();
+        int pY = playerUnit->GetPosY();
+        int pVision = playerUnit->GetViewDistance();
+
+        for (int y = 0; y < MapHeight; ++y)
+        {
+            for (int x = 0; x < MapWidth; ++x)
+            {
+                char symbolToPrint = Grid[y][x];
+
+                for (Enemy* unit : activeUnits)
+                {
+                    if (unit->GetPosX() == x && unit->GetPosY() == y)
+                    {
+                        if (unit == playerUnit)
+                        {
+                            symbolToPrint = unit->GetSymbol();
+                            break;
+                        }
+
+                        int dx = abs(unit->GetPosX() - pX);
+                        int dy = abs(unit->GetPosY() - pY);
+
+                        if (max(dx, dy) <= pVision)
+                        {
+                            symbolToPrint = unit->GetSymbol();
+                        }
+                        break;
+                    }
+                }
+                cout << symbolToPrint;
+            }
+            cout << endl;
+        }
+    }
 };
 
-void LoadMapFromBinary(int mapIndex)
-{
-    if (mapIndex < 0 || mapIndex > 4)
-    {
-        // Throw an out_of_range exception for bad indexes
-        throw out_of_range("Invalid map index! Must be between 0 and 4.");
-    }
-
-    // Open the file for binary reading
-    ifstream inFile("maps.dat", ios::binary);
-    if (!inFile)
-    {
-        throw runtime_error("CRITICAL FILE ERROR: maps.dat could not be found or opened.");
-    }
-
-    // Calculate where this map starts in the binary file
-    int offset = mapIndex * (MapWidth * MapHeight) * sizeof(char);
-
-    // Jump to specific spot in the file
-    inFile.seekg(offset, ios::beg);
-
-    // Read the binary data back into GameMap Grid
-    for (int y = 0; y < MapHeight; ++y)
-    {
-        inFile.read(reinterpret_cast<char*>(Grid[y].data()), MapWidth * sizeof(char));
-    }
-
-    inFile.close();
-}
+/* I completely removed the duplicate, out-of-scope LoadMapFromBinary function
+   that was down here causing compiler errors! */

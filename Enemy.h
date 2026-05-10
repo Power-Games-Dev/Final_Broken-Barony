@@ -1,3 +1,4 @@
+
 #pragma once
 #include <iostream>
 #include <vector>
@@ -40,6 +41,38 @@ public:
         {
             delete TargetLocation;
         }
+    }
+
+    // Getters and Setters methods so GameMap can read where my units are 
+    int GetPosX() const
+    {
+        return PosX;
+    }
+    int GetPosY() const
+    {
+        return PosY;
+    }
+    void SetPosX(int x)
+    {
+        PosX = x;
+    }
+    void SetPosY(int y)
+    {
+        PosY = y;
+    }
+    int GetViewDistance() const
+    {
+        return Stats.ViewDistance;
+    }
+    int GetMove() const
+    {
+        return Stats.Move;
+    }
+
+    // Virtual method here so each specific subclass can return its own token
+    virtual char GetSymbol() const
+    {
+        return '?';
     }
 
     // Virtual methods so my specific units like ElfAssassin, OrcBerserker can override them
