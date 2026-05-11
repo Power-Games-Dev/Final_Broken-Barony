@@ -140,6 +140,9 @@
   <ItemGroup>
     <ClCompile Include="Final_Broken Barony.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="maps.dat" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

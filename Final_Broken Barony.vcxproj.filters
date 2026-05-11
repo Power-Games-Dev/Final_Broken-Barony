@@ -46,4 +46,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="maps.dat" />
+  </ItemGroup>
 </Project>
