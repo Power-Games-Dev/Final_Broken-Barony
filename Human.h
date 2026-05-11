@@ -8,7 +8,7 @@ class Human : public IntelligentUnit
 public:
     Human(int x, int y) : IntelligentUnit(x, y,
         {
-        "Human", 4, true, 2, 3, 1, 1
+        "Human", 4, true, 2, 3, 1, 4
         })
     {
     }

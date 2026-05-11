@@ -8,7 +8,7 @@ class Orc : public SwarmUnit
 public:
     Orc(int x, int y) : SwarmUnit(x, y,
         {
-            "Orc", 2, false, 3, 2, 1, 3
+            "Orc", 2, false, 3, 2, 1, 6
         })
     {
     }

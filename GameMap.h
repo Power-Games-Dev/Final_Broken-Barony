@@ -48,7 +48,7 @@ public:
 
         ifstream inFile("maps.dat", ios::binary);
         if (!inFile) {
-            throw runtime_error("ERROR: maps.dat could not be found or opened.");
+            throw runtime_error("ERROR 6-7: maps.dat could not be found or opened.");
         }
 
         int offset = mapIndex * (MapWidth * MapHeight) * sizeof(char);
@@ -66,6 +66,12 @@ public:
     const vector<vector<char>>& GetGrid() const
     {
         return Grid;
+    }
+
+    // Getter so the game loop can read the Control Points to generate the Annual Update
+    const vector<ControlPoint>& GetControlPoints() const
+    {
+        return ControlPoints;
     }
 
     // Update the visual map based on control point status
@@ -152,6 +158,13 @@ public:
                 {
                     if (unit->GetPosX() == x && unit->GetPosY() == y)
                     {
+                        // This was added to Hide any INACTIVE units, because trying to know which Unit I was
+                        // commanding became a challenge at 3+ Units
+                        if (unit->GetFactionName() == "Human" && unit != playerUnit)
+                        {
+                            continue;
+                        }
+
                         if (unit == playerUnit)
                         {
                             symbolToPrint = unit->GetSymbol();
@@ -173,7 +186,23 @@ public:
             cout << endl;
         }
     }
-};
 
-/* I completely removed the duplicate, out-of-scope LoadMapFromBinary function
-   that was down here causing compiler errors! */
+    // Handles Control Point Capturing, searches data, changes ownership and updates visual from 'i' to '!'
+    bool CaptureCP(int targetX, int targetY, string faction)
+    {
+        for (auto& cp : ControlPoints)
+        {
+            if (cp.x == targetX && cp.y == targetY)
+            {
+                // Updated to prevent Infinite Farming for Units
+                if (cp.controllingFaction != faction) {
+                    cp.bIsControlled = true;
+                    cp.controllingFaction = faction;
+                    UpdateMapVisuals();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};

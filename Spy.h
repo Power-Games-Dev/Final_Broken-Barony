@@ -28,7 +28,7 @@ public:
     Spy(int x, int y, string name, bool tellsTruth)
         : IntelligentUnit(x, y,
             {
-                name, 10, true, 1, 0, 1, 2
+                name, 10, true, 1, 0, 1, 12
             }
         ), bTellsTruth(tellsTruth)
     {

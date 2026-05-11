@@ -9,7 +9,7 @@ public:
     // Pass the specific Elf stats up to the IntelligentUnit constructor
     Elf(int x, int y) : IntelligentUnit(x, y,
         {
-            "Elf", 6, true, 2, 1, 3, 2
+            "Elf", 6, true, 2, 1, 3, 8
         })
     {
     }
